@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <style></style>
+  <body>
+    <div class="board-body">
+      <div class="board"></div>
+    </div>
+    <div id="winner"></div>
+    </div>
+    
+  </body>
+  <script
+      src="https://cdn.socket.io/4.3.2/socket.io.min.js"
+      integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./script.js"></script>
+    <script src="./logic.js"></script>
+    <script src="./socket.js"></script>
+  <script>
+    
+    // if ('serviceWorker' in navigator) {
+    //     navigator.serviceWorker.register('/service-worker.js')
+    //         .then(registration => {
+    //             console.log('Service Worker registered successfully');
+    //         })
+    //         .catch(error => {
+    //             console.log('Service Worker registration failed:', error);
+    //         });
+    // }
+
+    // self.addEventListener('install', event => {
+    //     self.skipWaiting();
+    // });
+
+    // self.addEventListener('activate', event => {
+    //     event.waitUntil(
+    //         caches.keys().then(cacheNames => {
+    //             return Promise.all(
+    //                 cacheNames.map(cacheName => {
+    //                     return caches.delete(cacheName);
+    //                 })
+    //             );
+    //         })
+    //     );
+    // });
+</script>
+</html>
