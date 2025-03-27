@@ -1,5 +1,4 @@
-const url = "https://tic-tac-toe-ws-zmkv.onrender.com";
-// const url = "http://localhost:3000";
+const url = "http://localhost:3000";
 const socket = io(url, {
   transports: ["websocket"],
   reconnection: true,
@@ -38,7 +37,6 @@ const handleGame = (id) => {
 
 const startGame = (roomId) => {
   socket.emit("start-game", roomId);
-
   window.alert(`Room id ${roomId} created`);
 };
 
@@ -123,15 +121,6 @@ function handleClick(e) {
 
   gameState[row][col] = currentPlayer;
   renderMove(cell, currentPlayer);
-  console.log("choose-winner", chooseWinner(gameState, currentPlayer));
-
-  if (chooseWinner(gameState, currentPlayer)) {
-    removeEventListeners();
-    const winningMsg = `${currentPlayer} Wins`;
-    socket.emit("game-over", { roomId: roomId, winningMsg });
-  } else if (isDraw(gameState)) {
-    alert("Match is Draw");
-  }
 
   socket.emit("move", {
     symbol: currentPlayer,
@@ -139,6 +128,16 @@ function handleClick(e) {
     col: col,
     row: row,
   });
+
+  if (chooseWinner(gameState, currentPlayer)) {
+    removeEventListeners();
+    const winningMsg = `${currentPlayer} Wins`;
+    socket.emit("game-over", { roomId: roomId, winningMsg });
+  } else if (isDraw(gameState)) {
+    const bothPlayers = currentPlayer === "X" ? "X and O" : "O and X";
+    const winningMsg = `Match is Draw by ${bothPlayers}`;
+    socket.emit("game-over", { roomId: roomId, winningMsg });
+  }
 }
 
 function renderMove(cell, player) {
@@ -155,6 +154,53 @@ function handleMoves() {
 function removeEventListeners() {
   const cells = document.querySelectorAll(".cell");
   cells.forEach((cell) => cell.removeEventListener("click", handleClick));
+}
+
+function isDraw(board) {
+  return board.every((row) => row.every((cell) => cell !== ""));
+}
+
+function chooseWinner(board, currentPlayer) {
+
+  for (let i = 0; i < 3; i++) {
+    if (
+      board[i][0] === currentPlayer &&
+      board[i][1] === currentPlayer &&
+      board[i][2] === currentPlayer
+    ) {
+      return true;
+    }
+  }
+
+  // Check columns
+  for (let j = 0; j < 3; j++) {
+    if (
+      board[0][j] === currentPlayer &&
+      board[1][j] === currentPlayer &&
+      board[2][j] === currentPlayer
+    ) {
+      return true;
+    }
+  }
+
+  // Check diagonals
+  if (
+    board[0][0] === currentPlayer &&
+    board[1][1] === currentPlayer &&
+    board[2][2] === currentPlayer
+  ) {
+    return true;
+  }
+
+  if (
+    board[0][2] === currentPlayer &&
+    board[1][1] === currentPlayer &&
+    board[2][0] === currentPlayer
+  ) {
+    return true;
+  }
+
+  return false;
 }
 
 createBoard();
