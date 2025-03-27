@@ -66,7 +66,7 @@ socket.on("board-update", (data) => {
 });
 
 socket.on("game-over", (winningMsg) => {
-  document.getElementById("winner").textContent = winningMsg;
+  window.alert(winningMsg);
   removeEventListeners();
   if (window.confirm("Do you want to play another game?")) {
     window.location.reload();
@@ -123,12 +123,7 @@ function handleClick(e) {
 
   gameState[row][col] = currentPlayer;
   renderMove(cell, currentPlayer);
-  console.log(
-    "choose-winner",
-    chooseWinner(gameState, currentPlayer),
-  );
-
-  console.log("Is Draw");
+  console.log("choose-winner", chooseWinner(gameState, currentPlayer));
 
   if (chooseWinner(gameState, currentPlayer)) {
     removeEventListeners();
@@ -138,12 +133,6 @@ function handleClick(e) {
     alert("Match is Draw");
   }
 
-  console.log("move event", {
-    symbol: currentPlayer,
-    roomId: roomId,
-    col: col,
-    row: row,
-  });
   socket.emit("move", {
     symbol: currentPlayer,
     roomId: roomId,
