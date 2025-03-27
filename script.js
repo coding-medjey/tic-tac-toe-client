@@ -1,4 +1,5 @@
-const url = "http://localhost:3000";
+// const url = "http://localhost:3000";
+const url = "https://tic-tac-toe-ws-zmkv.onrender.com"
 const socket = io(url, {
   transports: ["websocket"],
   reconnection: true,
